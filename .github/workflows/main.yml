@@ -1,0 +1,26 @@
+name: Cache CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  cache-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Restore cache
+        id: cache-step
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/demo
+          key: cache-b8b1c33
+
+      - name: prime-cache-b8b1c33
+        run: |
+          echo "Cache hit? ${{ steps.cache-step.outputs.cache-hit }}"
+          mkdir -p ~/.cache/demo
+          echo "cached-data" > ~/.cache/demo/data.txt
